@@ -1,0 +1,11 @@
+    /* Navbar */
+    .navbar-custom {
+      background-color: #C19A6B;  /* camel classique */
+    }
+    .navbar-custom.navbar-dark .nav-link,
+    .navbar-custom.navbar-dark .navbar-brand {
+      color: #ffffff;
+    }
+    .navbar-custom.navbar-dark .nav-link:hover {
+      color: #333333;
+    }

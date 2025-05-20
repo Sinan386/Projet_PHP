@@ -1,7 +1,7 @@
 <?php 
 
-$produit = "Patek Philippe Grandmaster Chime 5175R";
-$prix = 2500000;
+(string) $produit = "Patek Philippe Grandmaster Chime 5175R";
+(int) $prix = 2500000;
 $image = "https://magmontres.fr/wp-content/uploads/2014/10/TheGrandmasterChime-1.jpg";
 
 echo "<h1>$produit</h1><br>";
