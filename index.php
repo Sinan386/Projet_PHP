@@ -33,6 +33,6 @@
 <br>
 <br>
 <br>
-
+<?php require("simple-catalog.php"); ?>
 
 <?php require("footer.php"); ?>
