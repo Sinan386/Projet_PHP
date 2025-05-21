@@ -15,8 +15,13 @@
   background-color: #C19A6B;  /* même camel que le header */
   text-align: center;
 }
-
-
+main {
+display: flex;           /* active Flexbox */
+flex-wrap: wrap;         /* passe à la ligne si nécessaire */
+justify-content: center; /* centre les éléments horizontalement */
+gap: 2rem;               /* espace entre les cartes */
+padding: 2rem;           /* marge interne autour des cartes */
+}
 /* Container de la carte produit */
 .card {
   max-width: 280px;                 /* Largeur fixe adaptée aux listings */

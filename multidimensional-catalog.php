@@ -15,11 +15,11 @@ $product = [
         "picture_url"=> "https://dynamicmedia.audemarspiguet.com/is/image/audemarspiguet/watch-598?size=568,0&dpr=off&fmt=avif-alpha&dpr=off",    
     ],
     "watch3"=> [
-    "name"=> "Grand Seiko 9F",
+    "name"=> "Grand Seiko ",
     "price"=> "2500",
     "weight"=> "134",
     "discount"=> "30",
-    "picture_url"=> "image/Grand_Seiko_9F.png",    
+    "picture_url"=> "image/Grand_Seiko_SBGW231.png",    
     ],
 ];
 ?>
@@ -39,7 +39,7 @@ $product = [
 <div class="card">
     <h3><?= $product["watch3"]["name"] ?></h3>
     <p>Prix : <?= $product["watch3"] ['price'] ?></p>
-    <div class="img-container"><img src="<?= $product["watch3"]['picture_url'] ?>"
+    <img src="<?= $product["watch3"]['picture_url'] ?>"
     alt="<?= $product["watch3"]['picture_url'] ?>">
 </div>
 </div>
