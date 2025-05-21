@@ -32,8 +32,13 @@
 <br>
 <br>
 <br>
-<br>
+<br> 
+<?php require("multidimensional-catalog.php"); ?>
 
-<?php require("catalog-with-keys.php"); ?>
 
 <?php require("footer.php"); ?>
+
+
+
+
+
