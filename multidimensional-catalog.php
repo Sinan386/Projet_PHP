@@ -1,5 +1,5 @@
 <?php 
-require("my-functions.php");
+require_once("my-functions.php");
 $product = [
     "watch" => [
         "name"=> "Breguet Classique Tourbillon Extra-Plat 5377",
@@ -29,9 +29,14 @@ $product = [
 <?php
 // tous les produits affichés avec foreach
 foreach ($product as $watch): ?>
+
   <div class="card">
     <h3><?= ($watch['name']) ?></h3>
-    <p>Prix : <?= formatPrice($watch['price']); ?></p>
+    <p>Prix TTC : <?= formatPrice ($watch['price']); ?></p>
+    <p>Prix HT :<?= formatPrice (priceExcludingVAT($watch['price'])); ?></p>
+    <p>Prix en promotion : <?= formatPrice(discountedPrice($watch['price'], $watch['discount'])); ?>
+    </p>
+    
     <img
       src="<?= ($watch['picture_url']) ?>"
       alt="<?= ($watch['name']) ?>"

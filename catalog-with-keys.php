@@ -1,5 +1,6 @@
 <?php
-$watch = [
+require("my-functions.php");
+$produit = [
     "name" => "Breguet No. 1176",
     "price"=> "100000€",
     "weight"=> "200",
@@ -8,12 +9,11 @@ $watch = [
 ];
 ?>
 <div>
-    <h3><?= $watch['name'] ?></h3>
-    <p>Prix : <?= $watch['price'] ?></p>
-    <img src="<?= $watch['picture_url'] ?>"
-    alt="<?= $watch['picture_url'] ?>">
+    <h3><?= $produit['name'] ?></h3>
+    <p>Prix : <?= $produit['price'] ?></p>
+    <img src="<?= $produit['picture_url'] ?>"
+    alt="<?= $produit['picture_url'] ?>">
 </div>
-
 <?php 
 
 $products = [ $watch ];
