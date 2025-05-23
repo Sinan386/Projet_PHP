@@ -1,48 +1,36 @@
 <?php 
 require_once("my-functions.php");
-$product = [
-    "watch" => [
-        "name"=> "Breguet Classique Tourbillon Extra-Plat 5377",
-        "price"=> "20880000",
-        "weight"=> "200",
-        "discount"=> "5",
-        "picture_url"=> "https://www.edouardgenton.com/image/catalog/Breguet/montre-breguet-5377-5377pt-12-9wu.jpg",
-    ],
-    "watch2"=> [
-        "name"=> "Audemars Piguet Royal Oak Selfwinding 15500ST",
-        "price"=> "3000000",
-        "weight"=> "142",
-        "discount"=> "10",
-        "picture_url"=> "https://dynamicmedia.audemarspiguet.com/is/image/audemarspiguet/watch-598?size=568,0&dpr=off&fmt=avif-alpha&dpr=off",    
-    ],
-    "watch3"=> [
-    "name"=> "Grand Seiko SBGW231 ",
-    "price"=> "250000",
-    "weight"=> "134",
-    "discount"=> "30",
-    "picture_url"=> "image/Grand_Seiko_SBGW231.png",    
-    ],
-];
+require_once("catalog.php");
 ?>
 <main>
 
+<form action="cart.php" method="POST">
 <?php
 // tous les produits affichés avec foreach
-foreach ($product as $watch): ?>
+
+foreach ($product as $watch => $caract): ?>
 
   <div class="card">
-    <h3><?= ($watch['name']) ?></h3>
-    <p>Prix TTC : <?= formatPrice ($watch['price']); ?></p>
-    <p>Prix HT :<?= formatPrice (priceExcludingVAT($watch['price'])); ?></p>
-    <p>Prix en promotion : <?= formatPrice(discountedPrice($watch['price'], $watch['discount'])); ?>
+    <h3><?= ($caract['name']) ?></h3>
+    <p>Prix TTC : <?= formatPrice ($caract['price']); ?></p>
+    <p>Prix HT :<?= formatPrice (priceExcludingVAT($caract['price'])); ?></p>
+    <p>Prix en promotion : <?= formatPrice(discountedPrice($caract['price'], $caract['discount'])); ?>
     </p>
     
     <img
-      src="<?= ($watch['picture_url']) ?>"
-      alt="<?= ($watch['name']) ?>"
-    >
+      src="<?= ($caract['picture_url']) ?>"
+      alt="<?= ($caract['name']) ?>">
+    <div class="quantity">
+        <input type="number" id="count" name="<?= $watch?>" style="width: 33%" value="0">
+        <input type="submit" value='Commander'>
+    </div>
   </div>
+     
+   
+
+
 <?php endforeach; ?>
+</form>
 </main>
 
 <!-- <div class="card"> 
