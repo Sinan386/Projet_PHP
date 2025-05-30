@@ -25,13 +25,17 @@ function priceExcludingVAT(int $ttcCentimes): int {
  * Calcule le prix HT à partir du TTC (TVA 20%) en centimes.
  *
  * @param int $ttcCentimes Prix TTC en centimes
+ * @param float $discount    Pourcentage de remise (0–100)
  * @return int             Prix HT en centimes
  */
 
-function discountedPrice(int $ttcCentimes, int $discount): int {
-    // borne le discount entre 0 et 100
-    $discount = max(0, min(100, $discount));
-    return (int) round($ttcCentimes * (100 - $discount) / 100);
+function discountedPrice(int $ttcCentimes, float $discount): int {
+    // Sécurisation de la remise
+    if ($discount < 0 || $discount > 100) {
+        throw new InvalidArgumentException('Promotion comprise entre 0 et 100');
+    }
+    // Calcul et arrondi
+    return (int) round($ttcCentimes * (1 - $discount / 100));
 }
 /**
  * Calcule le prix remisé (TTC) en centimes.

@@ -37,18 +37,31 @@ foreach ($_POST as $key => $value) { // $key reçoit watch1,2 etc.. value le nom
       <th>Quantité</th>
       <th>Total TTC</th>
       <th>Total HT</th>
+      <th>Remise (%)</th>
+      <th>Prix en Promotion TTC</th>
     </tr>
-    <?php foreach ($order as $key => $qty): 
-        $unitTTC  = (int)$product[$key]['price'];
-        $totalTTC = $unitTTC * $qty;
-        $unitHT   = priceExcludingVAT($unitTTC);
-        $totalHT  = $unitHT * $qty;
+    <?php foreach ($order as $key => $qty):
+        // On récupère les informations du produit  
+        $item =$product[$key];
+
+        // On calcule le prix unitaire TTC, le total TTC, le prix unitaire HT et le total HT
+        $unitTTC  = (int)$item['price']; // Prix unitaire TTC en centimes
+        $unitPromoTTC = discountedPrice($unitTTC, $item['discount']); // Prix unitaire TTC après remise
+
+        $totalTTC = $unitTTC * $qty; // Total TTC pour la quantité
+        $totalPromoTTC = $unitPromoTTC * $qty; // Total TTC après remise pour la quantité
+
+        // Prix unitaire HT 
+        $unitHT   = priceExcludingVAT($unitTTC); // Prix unitaire HT en centimes
+        $totalHT  = $unitHT * $qty; // Total HT pour la quantité
     ?>
       <tr>
-        <td><?= htmlspecialchars($product[$key]['name']) ?></td>
+        <td><?= htmlspecialchars($item['name']) ?></td>
         <td><?= $qty ?></td>
         <td><?= formatPrice($totalTTC) ?></td>
         <td><?= formatPrice($totalHT) ?></td>
+        <td><?= $item['discount'] ?> %</td>  <!-- Affichage du pourcentage -->
+        <td><?= formatPrice($totalPromoTTC) ?></td>
       </tr>
     <?php endforeach; ?>
   </table>
