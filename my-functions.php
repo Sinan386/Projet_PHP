@@ -46,4 +46,28 @@ function discountedPrice(int $ttcCentimes, int $discount): int {
 // }
 //  if ($discount <0 || $discount >100)  {  reduction compris entre 0 et 100
 // j'ai éssaié de le mettre dans mon catalogue mais sa ne fonctionne pas
+
+function shippingChrono(int $weight, int $totalTTC): int {
+    if ($weight <= 500) {
+        return 500;                   // 5 € en centimes
+    }
+    if ($weight <= 2000) {
+        return (int) round($totalTTC * 0.10);
+    }
+    return 0;
+}
+
+// Exemple d'un second transporteur, mêmes barèmes (peut différer si besoin)
+function shippingPoste(int $weight, int $totalTTC): int {
+    if ($weight <= 500) {
+        return 500;
+    }
+    if ($weight <= 2000) {
+        return (int) round($totalTTC * 0.10);
+    }
+    return 0;
+}
+
+
+
 ?>      

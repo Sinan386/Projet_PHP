@@ -19,6 +19,15 @@ foreach ($_POST as $key => $value) { // $key reçoit watch1,2 etc.. value le nom
         $order[$key] = $quantity;
     }
 }
+// Calcul du poids total et montant TTC
+$totalWeight =  0;
+$totalTTC = 0;
+foreach ($order as $key => qty) {
+  $unitTTC = (int)$product[$key]['price'];
+  $unitWeight = (int)$product[$key]['weight'];
+  $totalWeight += $unitTTC * $unitWeight;
+  $totalTTC += $unitWeight * $unitWeight;
+}
 ?>
   <style>
     table { border-collapse: collapse; width: 100%; }
