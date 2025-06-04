@@ -58,20 +58,22 @@ if ($carrier === 'Chrono') {
       <th>Prix en Promotion TTC</th>
     </tr>
     <?php foreach ($order as $key => $qty):
-        $item         = $product[$key];
-        $unitTTC      = (int)$item['price'];
-        $unitPromoTTC = discountedPrice($unitTTC, $item['discount']);
+        $item         = $product[$key]; // On récupère les informations du produit  
+        $unitTTC      = (int)$item['price']; // Prix unitaire TTC
+        $unitPromoTTC = discountedPrice($unitTTC, $item['discount']); // Prix unitaire TTC après remise
         $totalTTCProd = $unitTTC * $qty;
         $totalPromo   = $unitPromoTTC * $qty;
-        $unitHT       = priceExcludingVAT($unitTTC);
+        $unitHT       = priceExcludingVAT($unitTTC); // Prix unitaire HT en centimes
         $totalHTProd  = $unitHT * $qty;
+
     ?>
       <tr>
         <td><?= htmlspecialchars($item['name']) ?></td>
         <td><?= $qty ?></td>
+<<<<<<< HEAD
         <td><?= formatPrice($totalTTCProd) ?></td>
         <td><?= formatPrice($totalHTProd) ?></td>
-        <td><?= (int)$item['discount'] ?> %</td>
+        <td><?= (int)$item['discount'] ?> %</td> <!-- Affichage du pourcentage -->
         <td><?= formatPrice($totalPromo) ?></td>
       </tr>
     <?php endforeach; ?>
