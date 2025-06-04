@@ -1,4 +1,5 @@
-<?php 
+<?php
+session_start(); 
 require_once("my-functions.php");
 require_once("catalog.php");
 ?>
@@ -7,6 +8,9 @@ require_once("catalog.php");
 <form action="cart.php" method="POST">
 <?php
 // tous les produits affichés avec foreach
+$_SESSION['order'];
+echo "salut";
+
 
 foreach ($product as $watch => $caract): ?>
 
@@ -25,8 +29,6 @@ foreach ($product as $watch => $caract): ?>
         <input type="submit" value='Commander'>
     </div>
   </div>
-     
-   
 
 
 <?php endforeach; ?>

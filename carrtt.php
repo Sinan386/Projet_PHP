@@ -1,42 +1,44 @@
 <?php
-session_start();
-
 require_once "my-functions.php";
 require_once "catalog.php";
 
-// Debug ( facultatif )
-// var_dump($_POST);
-// echo "<br><br>";
+session_start();
 
-// On parcourt $_POST qui est une super global pour récupérer et valider les quantités envoyées
-$order = []; // Je crée un tableau qui stockera, pour chaque produit, la quantité validé.
-foreach ($_POST as $key => $value) { // $key reçoit watch1,2 etc.. value le nombre de montre
-    $quantity = filter_var( // fonction Filtre pour s'assurer que la valeur est un entier >= 0
-        $value,
-        FILTER_VALIDATE_INT, // Filtre INT
-        ['options' => ['min_range' => 0]] // on s'assure qu'on ne recup jamais un entier négatif
-    ); // Si l'entier est valide, strictement positif, et que le produit existe...
-    echo "if";
-    if ($quantity !== false && $quantity > 0 && isset($product[$key])) { // vérifie que le filtre à renvoyé un INT, au moins 1 unité, Isset vérifie que la clé existe dans le tableau $product
-        $order[$key] = $quantity;
-        echo "test";
-
+// 1. Gestion du panier persistant
+// Si un POST contient des quantités (clés correspondant à des produits), on remplit $order et on met à jour la session.
+// Sinon, on récupère $order depuis la session (ou un tableau vide par défaut).
+if (!empty($_POST)) {
+    $order = [];
+    foreach ($_POST as $key => $value) {
+        if ($key === 'carrier') {
+            continue;
+        }
+        $quantity = filter_var(
+            $value,
+            FILTER_VALIDATE_INT,
+            ['options' => ['min_range' => 0]]
+        );
+        if ($quantity !== false && $quantity > 0 && isset($product[$key])) {
+            $order[$key] = $quantity;
+        }
     }
+    $_SESSION['cart'] = $order;
+} else {
+    $order = $_SESSION['cart'] ?? [];
 }
-$_SESSION['order'] = $order;
-echo "1234";
-var_dump($_SESSION);
-// Calcul du poids total et montant TTC
-$totalWeight =  0;
+
+// 2. Calcul du poids total et montant TTC
+$totalWeight = 0;
 $totalTTC = 0;
 foreach ($order as $key => $qty) {
-  $unitTTC = (int)$product[$key]['price'];
-  $unitWeight = (int)$product[$key]['weight'];
-  $totalTTC += $unitTTC * $qty;
-  $totalWeight += $unitWeight* $qty;
-  
+    $unitTTC    = (int)$product[$key]['price'];
+    $unitWeight = (int)$product[$key]['weight'];
+    $totalTTC   += $unitTTC * $qty;
+    $totalWeight += $unitWeight * $qty;
 }
-$carrier      = $_POST['carrier'] ?? '';
+
+// 3. Lecture du transporteur (uniquement depuis POST)
+$carrier = $_POST['carrier'] ?? '';
 $shippingCost = 0;
 if ($carrier === 'Chrono') {
     $shippingCost = shippingChrono($totalWeight, $totalTTC);
@@ -44,6 +46,11 @@ if ($carrier === 'Chrono') {
     $shippingCost = shippingPoste($totalWeight, $totalTTC);
 }
 ?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mon Panier Persistant</title>
   <style>
     table { border-collapse: collapse; width: 100%; }
     th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
@@ -65,28 +72,26 @@ if ($carrier === 'Chrono') {
       <th>Prix en Promotion TTC</th>
     </tr>
     <?php foreach ($order as $key => $qty):
-        $item         = $product[$key]; // On récupère les informations du produit  
-        $unitTTC      = (int)$item['price']; // Prix unitaire TTC
-        $unitPromoTTC = discountedPrice($unitTTC, $item['discount']); // Prix unitaire TTC après remise
+        $item         = $product[$key];
+        $unitTTC      = (int)$item['price'];
+        $unitPromoTTC = discountedPrice($unitTTC, $item['discount']);
         $totalTTCProd = $unitTTC * $qty;
         $totalPromo   = $unitPromoTTC * $qty;
-        $unitHT       = priceExcludingVAT($unitTTC); // Prix unitaire HT en centimes
+        $unitHT       = priceExcludingVAT($unitTTC);
         $totalHTProd  = $unitHT * $qty;
-
     ?>
       <tr>
         <td><?= htmlspecialchars($item['name']) ?></td>
         <td><?= $qty ?></td>
-
         <td><?= formatPrice($totalTTCProd) ?></td>
         <td><?= formatPrice($totalHTProd) ?></td>
-        <td><?= (int)$item['discount'] ?> %</td> <!-- Affichage du pourcentage -->
+        <td><?= (int)$item['discount'] ?> %</td>
         <td><?= formatPrice($totalPromo) ?></td>
       </tr>
     <?php endforeach; ?>
   </table>
 
-  <p>Poids total <?= $totalWeight ?> g</p>
+  <p>Poids total : <?= $totalWeight ?> g</p>
   <p>Frais de port pour <?= htmlspecialchars($carrier) ?> : <?= formatPrice($shippingCost) ?></p>
 <?php endif; ?>
 

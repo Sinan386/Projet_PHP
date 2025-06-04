@@ -1,10 +1,7 @@
 <?php 
-session_start();
 
 
-// <?php session_destroy(); ?>
 
- $_SESSION[''] = '';
 ?>
 <!doctype html>
 <html lang="fr">
@@ -67,6 +64,7 @@ session_start();
       </ul>
     </div>
   </div>
+  
 </header>
 </nav>
 
