@@ -1,3 +1,11 @@
+<?php 
+session_start();
+
+
+// <?php session_destroy(); ?>
+
+ $_SESSION[''] = '';
+?>
 <!doctype html>
 <html lang="fr">
 <head>
