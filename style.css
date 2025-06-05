@@ -82,3 +82,8 @@ padding: 2rem;           /* marge interne autour des cartes */
 .quantity {
   flex-wrap: nowrap;
 }
+/* Par exemple dans style.css ou dans un <style> dans le <head> */
+body {
+  padding-top: 15rem; /* ← hauteur exacte de la navbar mesurée */
+}
+

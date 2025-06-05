@@ -3,6 +3,7 @@ session_start();
 
 require_once "my-functions.php";
 require_once "catalog.php";
+require_once 'header.php';
 
 // Debug ( facultatif )
 // var_dump($_POST);
@@ -47,7 +48,7 @@ if ($carrier === 'Chrono') {
   <style>
     table { border-collapse: collapse; width: 100%; }
     th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
-    th { background: #f5f5f5; }
+    th { background: #C19A6B;; }
   </style>
 </head>
 <body>
