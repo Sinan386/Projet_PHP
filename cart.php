@@ -3,14 +3,20 @@ session_start();
 
 require_once "my-functions.php";
 require_once "catalog.php";
-require_once 'header.php';
+require_once "header.php";
 
 // Debug ( facultatif )
 // var_dump($_POST);
 // echo "<br><br>";
 
 // On parcourt $_POST qui est une super global pour récupérer et valider les quantités envoyées
-$order = []; // Je crée un tableau qui stockera, pour chaque produit, la quantité validé.
+if ($_SERVER['REQUEST_METHOD'] === 'POST') { //Si on arrive par le formulaire, on met à jour la session
+
+if(isset($_POST['empty_cart'])) { // Si on a cliqué sur le bouton "Vider le panier"
+    emptycart(); // On vide le panier
+}
+else {
+  $order = []; // Je crée un tableau qui stockera, pour chaque produit, la quantité validé.
 foreach ($_POST as $key => $value) { // $key reçoit watch1,2 etc.. value le nombre de montre
     $quantity = filter_var( // fonction Filtre pour s'assurer que la valeur est un entier >= 0
         $value,
@@ -27,6 +33,12 @@ foreach ($_POST as $key => $value) { // $key reçoit watch1,2 etc.. value le nom
 $_SESSION['order'] = $order;
 echo "1234";
 var_dump($_SESSION);
+}
+}
+echo "1234";
+var_dump($_SESSION);
+
+$order = $_SESSION['order'] ?? []; //  On relit  le panier en session
 // Calcul du poids total et montant TTC
 $totalWeight =  0;
 $totalTTC = 0;
@@ -39,9 +51,9 @@ foreach ($order as $key => $qty) {
 }
 $carrier      = $_POST['carrier'] ?? '';
 $shippingCost = 0;
-if ($carrier === 'Chrono') {
+if ($carrier === 'Chronopost') {
     $shippingCost = shippingChrono($totalWeight, $totalTTC);
-} elseif ($carrier === 'Poste') {
+} elseif ($carrier === 'La Poste') {
     $shippingCost = shippingPoste($totalWeight, $totalTTC);
 }
 ?>
@@ -100,12 +112,18 @@ if ($carrier === 'Chrono') {
   <label for="carrier">Transporteur :</label>
   <select name="carrier" id="carrier" required>
     <option value="">-- Sélectionnez --</option>
-    <option value="Chrono" <?= $carrier === 'Chrono' ? 'selected' : '' ?>>Chrono</option>
-    <option value="Poste"  <?= $carrier === 'Poste'  ? 'selected' : '' ?>>La Poste</option>
+    <option value="Chronopost" <?= $carrier === 'Chronopost' ? 'selected' : '' ?>>Chronopost</option>
+    <option value="La Poste"  <?= $carrier === 'La Poste'  ? 'selected' : '' ?>>La Poste</option>
   </select>
 
   <button type="submit">Mettre à jour les frais de port</button>
 </form>
 
+    <!-- Bouton Vider le panier -->
+<form method="post" action="cart.php" style="display:inline">
+  <?php // on peut réinjecter les quantités mais emptyCart() les supprimera ?>
+  <button name="empty_cart" value="1" class="btn btn-danger" onclick="return confirm('Vider le panier ?')">
+    Vider le panier
+  </button>
 </body>
 </html>

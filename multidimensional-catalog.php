@@ -7,11 +7,11 @@ require_once("catalog.php");
 
 <form action="cart.php" method="POST">
 <?php
+
+$order = $_SESSION['order'] ?? [];
+  $qty = $order[$key] ?? 0;
+
 // tous les produits affichés avec foreach
-$_SESSION['order'];
-echo "salut";
-
-
 foreach ($product as $watch => $caract): ?>
 
   <div class="card">

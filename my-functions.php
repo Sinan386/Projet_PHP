@@ -72,6 +72,11 @@ function shippingPoste(int $weight, int $totalTTC): int {
     return 0;
 }
 
-
-
+// fonction qui vide le panier
+function emptyCart() {
+    // soit on supprime la clé…
+    unset($_SESSION['order']);
+    // …soit on la réinitialise vide
+    // $_SESSION['order'] = [];
+}
 ?>      
