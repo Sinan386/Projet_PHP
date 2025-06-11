@@ -14,10 +14,10 @@ catch (Exception $e)
 }
 
 
-$sqlQuery = ('SELECT * FROM products');
-$produits = $mysqlClient -> prepare($sqlQuery);
-$produits -> execute();
-$products = $produits -> fetchAll(mode: PDO::FETCH_ASSOC); 
+// $sqlQuery = ('SELECT * FROM products');
+// $produits = $mysqlClient -> prepare($sqlQuery);
+// $produits -> execute();
+// $products = $produits -> fetchAll(mode: PDO::FETCH_ASSOC); 
 
 
 ?>

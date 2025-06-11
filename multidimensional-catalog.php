@@ -1,28 +1,28 @@
 <?php
-session_start(); 
+// session_start(); 
 require_once("my-functions.php");
 require_once("catalog.php");
 ?>
 <main>
 
-<form action="cart.php" method="POST">
-<?php
+<!-- <form action="cart.php" method="POST">-->
+ <?php 
 
-$order = $_SESSION['order'] ?? [];
-  $qty = $order[$key] ?? 0;
+// $order = $_SESSION['order'] ?? [];
+//   $qty = $order[$key] ?? 0;
 
 // tous les produits affichés avec foreach
-foreach ($product as $watch => $caract): ?>
+foreach ($products as $watch => $caract): ?>
 
   <div class="card">
     <h3><?= ($caract['name']) ?></h3>
     <p>Prix TTC : <?= formatPrice ($caract['price']); ?></p>
     <p>Prix HT :<?= formatPrice (priceExcludingVAT($caract['price'])); ?></p>
-    <p>Prix en promotion : <?= formatPrice(discountedPrice($caract['price'], $caract['discount'])); ?>
-    </p>
+    
+    </p> 
     
     <img
-      src="<?= ($caract['picture_url']) ?>"
+      src="<?= ($caract['image_url']) ?>"
       alt="<?= ($caract['name']) ?>">
     <div class="quantity">
         <input type="number" id="count" name="<?= $watch?>" style="width: 33%" value="0">
@@ -32,7 +32,7 @@ foreach ($product as $watch => $caract): ?>
 
 
 <?php endforeach; ?>
-</form>
+<!-- </form> -->
 </main>
 
 <!-- <div class="card"> 
